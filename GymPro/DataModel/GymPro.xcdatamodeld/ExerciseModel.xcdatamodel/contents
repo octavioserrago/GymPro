@@ -6,23 +6,18 @@
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Exercise" representedClassName="Exercise" syncable="YES" codeGenerationType="class">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="exerciseToDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day"/>
-    </entity>
-    <entity name="Reps" representedClassName="Reps" syncable="YES" codeGenerationType="class">
-        <attribute name="amount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="repsToSets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sets"/>
+        <relationship name="setsToExercise" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sets"/>
     </entity>
     <entity name="Sets" representedClassName="Sets" syncable="YES" codeGenerationType="class">
-        <attribute name="amount" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dateCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="reps" optional="YES" attributeType="Integer 32" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="sets" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="setsToExercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise"/>
-    </entity>
-    <entity name="Weight" representedClassName="Weight" syncable="YES" codeGenerationType="class">
-        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="weightToSet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sets"/>
     </entity>
 </model>

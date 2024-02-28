@@ -14,6 +14,8 @@ struct GymProApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, gymProController.container.viewContext)
+                .environmentObject(gymProController)
+            
         }
     }
 }

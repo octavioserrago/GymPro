@@ -8,11 +8,37 @@
 import SwiftUI
 
 struct AddExerciseView: View {
+    @Environment(\.managedObjectContext) var managedObjContext
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var name = ""
+    
+    var day: Day
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Form {
+                Section(header: Text("Exercise Name")) {
+                    TextField("Exercise Name", text: $name)
+                        .padding()
+                }
+            }
+            .navigationBarTitle("Add Exercise")
+            .navigationBarItems(trailing: Button("Save", action: {
+                saveExercise()
+                dismiss()
+            }))
+        }
+    }
+    
+    private func saveExercise() {
+        let gymProController = GymProController()
+        gymProController.addExercise(name: name, context: managedObjContext, day: day)
     }
 }
 
-#Preview {
-    AddExerciseView()
+struct AddExerciseView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddExerciseView(day: Day())
+    }
 }

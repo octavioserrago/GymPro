@@ -9,47 +9,88 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.name, order: .forward)]) var day: FetchedResults<Day>
-    
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.name, order: .forward)]) private var days: FetchedResults<Day>
     @State private var showingAddView = false
     
+    @EnvironmentObject var gymProController: GymProController 
+
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
-                List {
-                    ForEach(day) { day in
-                        NavigationLink(destination: Text("\(day.name ?? "")")) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 6) {
-                                    Text(day.name ?? "")
-                                        .bold()
-                                }
-                            }
-                        }
+            List {
+                ForEach(days) { day in
+                    NavigationLink(destination: DayDetailView(day: day)) {
+                        Text(day.name ?? "")
+                            .bold()
                     }
-                    .onDelete(perform: deleteDay)
                 }
+                .onDelete(perform: deleteDays)
             }
-            .navigationBarTitle("Gym Pro", displayMode: .large) // Agrega el título aquí
+            .navigationBarTitle("Gym Copilot")
             .navigationBarItems(trailing: Button(action: {
-                // Action to navigate to AddDayView
-                showingAddView = true
+                showingAddView.toggle()
             }) {
                 Image(systemName: "plus")
+                    .padding()
             })
             .sheet(isPresented: $showingAddView) {
-                // Present AddDayView here
-                AddDayView()
+                AddDayView().environment(\.managedObjectContext, self.managedObjectContext)
             }
+        }
+    }
+
+    private func deleteDays(at offsets: IndexSet) {
+        for index in offsets {
+            let day = days[index]
+            managedObjectContext.delete(day)
+        }
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Error deleting day: \(error)")
         }
     }
 }
 
-// Define your AddDayView here
+struct DayDetailView: View {
+   @ObservedObject var day: Day
+   @FetchRequest(entity: Exercise.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Exercise.creationDate, ascending: false)]) var exercises: FetchedResults<Exercise>
+   @Environment(\.managedObjectContext) private var managedObjectContext
+   @State private var showingAddExerciseView = false
 
-private func deleteDay(offsets: IndexSet) {
-    // Implement deletion logic
+   var body: some View {
+       VStack {
+           List {
+               ForEach(exercises.filter { $0.exerciseToDay == day }) { exercise in
+                   NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+                       Text(exercise.name ?? "")
+                   }
+               }
+               .onDelete(perform: deleteExercise)
+           }
+       }
+       .navigationBarTitle((day.name ?? ""))
+       .navigationBarItems(trailing: Button(action: {
+           showingAddExerciseView.toggle()
+       }) {
+           Image(systemName: "plus")
+       })
+       .sheet(isPresented: $showingAddExerciseView) {
+           AddExerciseView(day: day)
+       }
+   }
+
+   private func deleteExercise(at offsets: IndexSet) {
+       for index in offsets {
+           let exercise = exercises[index]
+           managedObjectContext.delete(exercise)
+       }
+       do {
+           try managedObjectContext.save()
+       } catch {
+           print("Error deleting exercise: \(error)")
+       }
+   }
 }
 
 struct ContentView_Previews: PreviewProvider {

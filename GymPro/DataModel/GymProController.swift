@@ -28,6 +28,8 @@ class GymProController: ObservableObject {
         }
     }
     
+    //func day
+    
     func addDay (name: String, context: NSManagedObjectContext) {
         let day = Day(context: context)
         day.id = UUID()
@@ -46,5 +48,30 @@ class GymProController: ObservableObject {
         save(context: context)
     }
     
+    //func exercise
+    func addExercise(name: String, context: NSManagedObjectContext, day: Day) {
+        let exercise = Exercise(context: context)
+        exercise.id = UUID()
+        exercise.name = name
+        exercise.exerciseToDay = day
+        
+        save(context: context)
+    }
     
+    // Add series to exercise
+    func addSeries(sets: Int32, weight: Double, reps: Int32, to exercise: Exercise, context: NSManagedObjectContext) {
+        let newSet = Sets(context: context)
+        newSet.sets = sets
+        newSet.weight = weight
+        newSet.reps = reps
+        newSet.dateCreation = Date()
+
+        exercise.addToSetsToExercise(newSet)
+
+        do {
+            try context.save()
+        } catch {
+        
+        }
+    }
 }
