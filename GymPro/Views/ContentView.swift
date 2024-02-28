@@ -53,45 +53,54 @@ struct ContentView: View {
 }
 
 struct DayDetailView: View {
-   @ObservedObject var day: Day
-   @FetchRequest(entity: Exercise.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Exercise.creationDate, ascending: false)]) var exercises: FetchedResults<Exercise>
-   @Environment(\.managedObjectContext) private var managedObjectContext
-   @State private var showingAddExerciseView = false
+    @ObservedObject var day: Day
+    @FetchRequest(entity: Exercise.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Exercise.creationDate, ascending: false)]) var exercises: FetchedResults<Exercise>
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    @State private var showingAddExerciseView = false
 
-   var body: some View {
-       VStack {
-           List {
-               ForEach(exercises.filter { $0.exerciseToDay == day }) { exercise in
-                   NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                       Text(exercise.name ?? "")
-                   }
-               }
-               .onDelete(perform: deleteExercise)
-           }
-       }
-       .navigationBarTitle((day.name ?? ""))
-       .navigationBarItems(trailing: Button(action: {
-           showingAddExerciseView.toggle()
-       }) {
-           Image(systemName: "plus")
-       })
-       .sheet(isPresented: $showingAddExerciseView) {
-           AddExerciseView(day: day)
-       }
-   }
+    var body: some View {
+        VStack {
+            List {
+                ForEach(exercises.filter { $0.exerciseToDay == day }) { exercise in
+                    NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+                        HStack {
+                            Text(exercise.name ?? "")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            Spacer()
+                        }
+                        .padding(.vertical, 8)
+                    }
+                }
+                .onDelete(perform: deleteExercise)
+            }
+        }
+        .navigationBarTitle(Text(day.name ?? "").font(.largeTitle).bold())
+        .navigationBarItems(trailing: Button(action: {
+            showingAddExerciseView.toggle()
+        }) {
+            Image(systemName: "plus.circle.fill")
+                .font(.title)
+                .foregroundColor(.accentColor)
+        })
+        .sheet(isPresented: $showingAddExerciseView) {
+            AddExerciseView(day: day)
+        }
+    }
 
-   private func deleteExercise(at offsets: IndexSet) {
-       for index in offsets {
-           let exercise = exercises[index]
-           managedObjectContext.delete(exercise)
-       }
-       do {
-           try managedObjectContext.save()
-       } catch {
-           print("Error deleting exercise: \(error)")
-       }
-   }
+    private func deleteExercise(at offsets: IndexSet) {
+        for index in offsets {
+            let exercise = exercises[index]
+            managedObjectContext.delete(exercise)
+        }
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Error deleting exercise: \(error)")
+        }
+    }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
