@@ -79,8 +79,7 @@ struct DayDetailView: View {
         .navigationBarItems(trailing: Button(action: {
             showingAddExerciseView.toggle()
         }) {
-            Image(systemName: "plus.circle.fill")
-                .font(.title)
+            Image(systemName: "plus.circle")
                 .foregroundColor(.accentColor)
         })
         .sheet(isPresented: $showingAddExerciseView) {

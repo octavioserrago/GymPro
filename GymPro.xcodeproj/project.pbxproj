@@ -20,7 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4E4AB0242B8D7A9300B8E490 /* GymPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E4AB0242B8D7A9300B8E490 /* Gym Copilot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gym Copilot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E4AB0272B8D7A9300B8E490 /* GymProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymProApp.swift; sourceTree = "<group>"; };
 		4E4AB0292B8D7A9300B8E490 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4E4AB02B2B8D7A9500B8E490 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 		4E4AB0252B8D7A9300B8E490 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4E4AB0242B8D7A9300B8E490 /* GymPro.app */,
+				4E4AB0242B8D7A9300B8E490 /* Gym Copilot.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,9 +112,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4E4AB0232B8D7A9300B8E490 /* GymPro */ = {
+		4E4AB0232B8D7A9300B8E490 /* Gym Copilot */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4E4AB0322B8D7A9500B8E490 /* Build configuration list for PBXNativeTarget "GymPro" */;
+			buildConfigurationList = 4E4AB0322B8D7A9500B8E490 /* Build configuration list for PBXNativeTarget "Gym Copilot" */;
 			buildPhases = (
 				4E4AB0202B8D7A9300B8E490 /* Sources */,
 				4E4AB0212B8D7A9300B8E490 /* Frameworks */,
@@ -124,9 +124,9 @@
 			);
 			dependencies = (
 			);
-			name = GymPro;
+			name = "Gym Copilot";
 			productName = GymPro;
-			productReference = 4E4AB0242B8D7A9300B8E490 /* GymPro.app */;
+			productReference = 4E4AB0242B8D7A9300B8E490 /* Gym Copilot.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -157,7 +157,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4E4AB0232B8D7A9300B8E490 /* GymPro */,
+				4E4AB0232B8D7A9300B8E490 /* Gym Copilot */,
 			);
 		};
 /* End PBXProject section */
@@ -382,7 +382,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4E4AB0322B8D7A9500B8E490 /* Build configuration list for PBXNativeTarget "GymPro" */ = {
+		4E4AB0322B8D7A9500B8E490 /* Build configuration list for PBXNativeTarget "Gym Copilot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4E4AB0332B8D7A9500B8E490 /* Debug */,
