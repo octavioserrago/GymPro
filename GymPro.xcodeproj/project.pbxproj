@@ -17,6 +17,7 @@
 		4E567FE12B8EA0C7000D85CD /* AddSetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E567FE02B8EA0C7000D85CD /* AddSetsView.swift */; };
 		4E79FE8A2B8E223000FD58CD /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E79FE892B8E223000FD58CD /* AddExerciseView.swift */; };
 		4E79FE8E2B8E371100FD58CD /* ExerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E79FE8D2B8E371100FD58CD /* ExerciseDetailView.swift */; };
+		4EA4917A2B9033C2003A797B /* EditSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA491792B9033C2003A797B /* EditSetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		4E567FE02B8EA0C7000D85CD /* AddSetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetsView.swift; sourceTree = "<group>"; };
 		4E79FE892B8E223000FD58CD /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		4E79FE8D2B8E371100FD58CD /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
+		4EA491792B9033C2003A797B /* EditSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				4E79FE892B8E223000FD58CD /* AddExerciseView.swift */,
 				4E79FE8D2B8E371100FD58CD /* ExerciseDetailView.swift */,
 				4E567FE02B8EA0C7000D85CD /* AddSetsView.swift */,
+				4EA491792B9033C2003A797B /* EditSetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				4E4AB0472B8D853300B8E490 /* AddDayView.swift in Sources */,
 				4E4AB0282B8D7A9300B8E490 /* GymProApp.swift in Sources */,
 				4E4AB0402B8D7CD400B8E490 /* GymPro.xcdatamodeld in Sources */,
+				4EA4917A2B9033C2003A797B /* EditSetView.swift in Sources */,
 				4E79FE8A2B8E223000FD58CD /* AddExerciseView.swift in Sources */,
 				4E4AB0422B8D81BE00B8E490 /* GymProController.swift in Sources */,
 			);

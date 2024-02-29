@@ -74,4 +74,26 @@ class GymProController: ObservableObject {
         
         }
     }
+    
+    func updateSeries(set: Sets, sets: Int32, weight: Double, reps: Int32, context: NSManagedObjectContext) {
+        print("Iniciando la actualización del set...")
+        print("Valores recibidos - Sets: \(sets), Peso: \(weight), Reps: \(reps)")
+        
+        set.sets = sets
+        print("Sets actualizados a \(set.sets)")
+        
+        set.weight = weight
+        print("Peso actualizado a \(set.weight)")
+        
+        set.reps = reps
+        print("Reps actualizados a \(set.reps)")
+        
+        do {
+            try context.save()
+            print("El set se ha actualizado y guardado correctamente.")
+        } catch {
+            print("Error al actualizar el set: \(error)")
+        }
+    }
+    
 }
