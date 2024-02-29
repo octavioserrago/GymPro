@@ -30,7 +30,7 @@ struct ContentView: View {
             .navigationBarItems(trailing: Button(action: {
                 showingAddView.toggle()
             }) {
-                Image(systemName: "plus")
+                Image(systemName: "plus.circle")
                     .padding()
             })
             .sheet(isPresented: $showingAddView) {

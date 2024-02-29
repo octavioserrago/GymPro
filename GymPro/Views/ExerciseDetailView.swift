@@ -20,7 +20,7 @@ struct ExerciseDetailView: View {
                             .foregroundColor(.blue)
                         Text("\(String(format: "%.1f", sets.weight)) kg")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
                         Text("\(sets.reps) reps")
                             .font(.body)
                             .foregroundColor(.green)
@@ -38,7 +38,7 @@ struct ExerciseDetailView: View {
         .navigationBarTitle(Text(exercise.name ?? "Exercise").bold())
         .navigationBarItems(trailing:
             NavigationLink(destination: AddSetsView(exercise: exercise)) {
-                Image(systemName: "plus")
+                Image(systemName: "plus.circle")
             }
         )
     }
