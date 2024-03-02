@@ -11,11 +11,13 @@ struct ExerciseDetailView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @State private var showingEditSetView = false
     @State private var selectedSet: Sets?
+    @State private var sets: [Sets] = []
+    @State private var updateToken = UUID()
 
     var body: some View {
         VStack {
-            VStack(alignment: .leading, spacing: 10) {
-                ForEach(Array(exercise.setsToExercise as? Set<Sets> ?? []).sorted(by: { ($0.dateCreation ?? Date.distantPast) < ($1.dateCreation ?? Date.distantPast) }), id: \.self) { sets in
+            List {
+                ForEach(sets.sorted(by: { ($0.dateCreation ?? Date.distantPast) < ($1.dateCreation ?? Date.distantPast) }), id: \.self) { sets in
                     HStack {
                         Text("\(sets.sets) sets")
                             .font(.headline)
@@ -36,21 +38,11 @@ struct ExerciseDetailView: View {
                             Image(systemName: "pencil")
                         }
                         .buttonStyle(BorderlessButtonStyle())
-
-                        Button(action: {
-                            self.deleteSet(set: sets)
-                        }) {
-                            Image(systemName: "trash")
-                        }
-                        .buttonStyle(BorderlessButtonStyle())
                     }
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(8)
-                    .shadow(radius: 2)
                 }
+                .onDelete(perform: deleteSet)
             }
-            .padding()
+            .id(updateToken)
 
             Spacer()
         }
@@ -66,20 +58,21 @@ struct ExerciseDetailView: View {
                     .environment(\.managedObjectContext, self.managedObjectContext)
             }
         }
+        .onAppear {
+            self.sets = Array(exercise.setsToExercise as? Set<Sets> ?? [])
+        }
     }
 
-    func deleteSet(set: Sets) {
-        guard let sets = self.exercise.setsToExercise as? Set<Sets>, sets.contains(set) else {
-            return
+    func deleteSet(at offsets: IndexSet) {
+        withAnimation {
+            offsets.map { sets[$0] }.forEach(managedObjectContext.delete)
+            do {
+                try managedObjectContext.save()
+                self.sets = Array(exercise.setsToExercise as? Set<Sets> ?? [])
+            } catch {
+                print("Error al eliminar la serie: \(error.localizedDescription)")
+            }
         }
-        self.exercise.removeFromSetsToExercise(set)
-        do {
-            try self.managedObjectContext.save()
-        } catch {
-            print("Error al guardar cambios: \(error.localizedDescription)")
-        }
-        print("Conjunto eliminado: \(set)")
     }
+
 }
-
-

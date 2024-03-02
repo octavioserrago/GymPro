@@ -52,11 +52,13 @@ struct EditSetsView: View {
     
     private func updateSet() {
         if let setsValue = Int32(sets), let weightValue = Double(weight), let repsValue = Int32(reps) {
-            gymProController.updateSeries(set: set, sets: setsValue, weight: weightValue, reps: repsValue, context: managedObjectContext)
+            gymProController.updateSeries(sets: setsValue, weight: weightValue, reps: repsValue, context: managedObjectContext)
             dismiss()
         } else {
     
         }
     }
+
+
 }
 

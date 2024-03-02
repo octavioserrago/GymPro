@@ -32,6 +32,7 @@
 		4E567FE02B8EA0C7000D85CD /* AddSetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetsView.swift; sourceTree = "<group>"; };
 		4E79FE892B8E223000FD58CD /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		4E79FE8D2B8E371100FD58CD /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
+		4E8896EF2B92D7B9005E963C /* Gym-Copilot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Gym-Copilot-Info.plist"; sourceTree = "<group>"; };
 		4EA491792B9033C2003A797B /* EditSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -49,6 +50,7 @@
 		4E4AB01B2B8D7A9300B8E490 = {
 			isa = PBXGroup;
 			children = (
+				4E8896EF2B92D7B9005E963C /* Gym-Copilot-Info.plist */,
 				4E4AB0262B8D7A9300B8E490 /* GymPro */,
 				4E4AB0252B8D7A9300B8E490 /* Products */,
 			);
@@ -327,9 +329,8 @@
 				DEVELOPMENT_TEAM = X4GUY8W96V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Gym-Copilot-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -356,9 +357,8 @@
 				DEVELOPMENT_TEAM = X4GUY8W96V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Gym-Copilot-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

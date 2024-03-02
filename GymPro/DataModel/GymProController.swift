@@ -58,42 +58,43 @@ class GymProController: ObservableObject {
         save(context: context)
     }
     
-    // Add series to exercise
-    func addSeries(sets: Int32, weight: Double, reps: Int32, to exercise: Exercise, context: NSManagedObjectContext) {
-        let newSet = Sets(context: context)
-        newSet.sets = sets
-        newSet.weight = weight
-        newSet.reps = reps
-        newSet.dateCreation = Date()
+    
+    
+    // Agregar una serie a un ejercicio dentro de un día
+    func addSeries(sets: Int32, weight: Double, reps: Int32, to exercise: Exercise, in day: Day, context: NSManagedObjectContext) {
+        // Crear una nueva instancia de Sets
+        let series = Sets(context: context)
+        series.id = UUID()
+        series.weight = weight
+        series.reps = reps
+        series.sets = sets
+        
+        // Agregar la serie al ejercicio
+        exercise.addToSetsToExercise(series)
+        
+        // Asociar el ejercicio al día
+        exercise.exerciseToDay = day
+        
+        // Guardar los cambios en el contexto
+        saveChanges(context: context)
+    }
 
-        exercise.addToSetsToExercise(newSet)
-
+    // Función para guardar los cambios en el contexto
+    func saveChanges(context: NSManagedObjectContext) {
         do {
             try context.save()
         } catch {
-        
+            print("Error al guardar los cambios en el contexto: \(error)")
         }
     }
+
     
-    func updateSeries(set: Sets, sets: Int32, weight: Double, reps: Int32, context: NSManagedObjectContext) {
-        print("Iniciando la actualización del set...")
-        print("Valores recibidos - Sets: \(sets), Peso: \(weight), Reps: \(reps)")
-        
+    func updateSeries(sets: Int32, weight: Double, reps: Int32, context: NSManagedObjectContext) {
+        let set = Sets (context: context)
         set.sets = sets
-        print("Sets actualizados a \(set.sets)")
-        
         set.weight = weight
-        print("Peso actualizado a \(set.weight)")
-        
         set.reps = reps
-        print("Reps actualizados a \(set.reps)")
-        
-        do {
-            try context.save()
-            print("El set se ha actualizado y guardado correctamente.")
-        } catch {
-            print("Error al actualizar el set: \(error)")
-        }
+        save(context: context)
     }
     
 }

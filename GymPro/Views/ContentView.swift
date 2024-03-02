@@ -13,7 +13,7 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name, order: .forward)]) private var days: FetchedResults<Day>
     @State private var showingAddView = false
     
-    @EnvironmentObject var gymProController: GymProController 
+    @EnvironmentObject var gymProController: GymProController
 
     var body: some View {
         NavigationView {
@@ -56,8 +56,9 @@ struct DayDetailView: View {
     @ObservedObject var day: Day
     @FetchRequest(entity: Exercise.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Exercise.creationDate, ascending: false)]) var exercises: FetchedResults<Exercise>
     @Environment(\.managedObjectContext) private var managedObjectContext
+    
     @State private var showingAddExerciseView = false
-
+    
     var body: some View {
         VStack {
             List {
@@ -86,23 +87,25 @@ struct DayDetailView: View {
             AddExerciseView(day: day)
         }
     }
-
-    private func deleteExercise(at offsets: IndexSet) {
-        for index in offsets {
-            let exercise = exercises[index]
-            managedObjectContext.delete(exercise)
-        }
-        do {
-            try managedObjectContext.save()
-        } catch {
-            print("Error deleting exercise: \(error)")
+    
+    func deleteExercise(at offsets: IndexSet) {
+        withAnimation {
+            offsets.map { exercises[$0] }.forEach(managedObjectContext.delete)
+            
+            do {
+                try managedObjectContext.save()
+            } catch {
+                print("Error al eliminar el ejercicio: \(error.localizedDescription)")
+            }
         }
     }
-}
 
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
 }

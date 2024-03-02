@@ -40,14 +40,24 @@ struct AddSetsView: View {
         }
     }
     
-    private func saveSet() {
-        if let setsValue = Int32(sets), let weightValue = Double(weight), let repsValue = Int32(reps) {
-            gymProController.addSeries(sets: setsValue, weight: weightValue, reps: repsValue, to: exercise, context: managedObjContext)
-            dismiss()
-        } else {
-            
+    func saveSet() {
+      
+        guard let setsCount = Int32(sets), let weightValue = Double(weight), let repsCount = Int32(reps) else {
+
+            return
         }
+        
+       
+        gymProController.addSeries(sets: setsCount, weight: weightValue, reps: repsCount, to: exercise, in: exercise.exerciseToDay!, context: managedObjContext)
+        
+       
+        dismiss()
     }
+
+    
+   
+
+
 
 
 }
