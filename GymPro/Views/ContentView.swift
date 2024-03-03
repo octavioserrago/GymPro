@@ -70,7 +70,6 @@ struct DayDetailView: View {
                                 .foregroundColor(.primary)
                             Spacer()
                         }
-                        .padding(.vertical, 8)
                     }
                 }
                 .onDelete(perform: deleteExercise)
@@ -90,7 +89,8 @@ struct DayDetailView: View {
     
     func deleteExercise(at offsets: IndexSet) {
         withAnimation {
-            offsets.map { exercises[$0] }.forEach(managedObjectContext.delete)
+            let sortedExercises = exercises.sorted(by: { ($0.creationDate ?? Date.distantPast) > ($1.creationDate ?? Date.distantPast) })
+            offsets.map { sortedExercises[$0] }.forEach(managedObjectContext.delete)
             
             do {
                 try managedObjectContext.save()
@@ -99,6 +99,8 @@ struct DayDetailView: View {
             }
         }
     }
+
+
 
     
     

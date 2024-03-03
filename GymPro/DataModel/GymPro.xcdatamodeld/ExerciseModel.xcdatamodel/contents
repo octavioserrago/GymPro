@@ -4,13 +4,13 @@
         <attribute name="date" optional="YES" attributeType="Date" defaultDateTimeInterval="730693800" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="dayToExercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise"/>
+        <relationship name="dayToExercise" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Exercise" inverseName="exerciseToDay" inverseEntity="Exercise"/>
     </entity>
     <entity name="Exercise" representedClassName="Exercise" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="exerciseToDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day"/>
+        <relationship name="exerciseToDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="dayToExercise" inverseEntity="Day"/>
         <relationship name="setsToExercise" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sets" inverseName="setsToExercise" inverseEntity="Sets"/>
     </entity>
     <entity name="Sets" representedClassName="Sets" syncable="YES" codeGenerationType="class">

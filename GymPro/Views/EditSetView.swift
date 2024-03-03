@@ -13,31 +13,30 @@ struct EditSetsView: View {
     @ObservedObject var exercise: Exercise
     @ObservedObject var set: Sets
     
-    @State private var sets = ""
-    @State private var weight = ""
-    @State private var reps = ""
+    @State public var sets: Int32
+    @State public var weight: Double
+    @State public var reps: Int32
     
     @EnvironmentObject var gymProController: GymProController
+    
+    init(exercise: Exercise, set: Sets, sets: Int32, weight: Double, reps: Int32) {
+        self.exercise = exercise
+        self.set = set
+        _sets = State(initialValue: sets)
+        _weight = State(initialValue: weight)
+        _reps = State(initialValue: reps)
+    }
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Edit Set")) {
-                    TextField("Sets", text: $sets)
+                    TextField("Sets", value: $sets, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
-                        .onAppear {
-                            sets = String(set.sets)
-                        }
-                    TextField("Weight", text: $weight)
+                    TextField("Weight", value: $weight, formatter: NumberFormatter())
+                        .keyboardType(.decimalPad)
+                    TextField("Reps", value: $reps, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
-                        .onAppear {
-                            weight = String(format: "%.1f", set.weight)
-                        }
-                    TextField("Reps", text: $reps)
-                        .keyboardType(.numberPad)
-                        .onAppear {
-                            reps = String(set.reps)
-                        }
                 }
                 
                 Button(action: {
@@ -51,14 +50,7 @@ struct EditSetsView: View {
     }
     
     private func updateSet() {
-        if let setsValue = Int32(sets), let weightValue = Double(weight), let repsValue = Int32(reps) {
-            gymProController.updateSeries(sets: setsValue, weight: weightValue, reps: repsValue, context: managedObjectContext)
-            dismiss()
-        } else {
-    
-        }
+        gymProController.updateSeries(sets: sets, weight: weight, reps: reps, context: managedObjectContext)
+        dismiss()
     }
-
-
 }
-

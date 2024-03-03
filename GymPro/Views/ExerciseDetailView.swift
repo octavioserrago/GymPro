@@ -5,45 +5,25 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ExerciseDetailView: View {
     @ObservedObject var exercise: Exercise
     @Environment(\.managedObjectContext) var managedObjectContext
-    @State private var showingEditSetView = false
+    @FetchRequest(entity: Sets.entity(), sortDescriptors: []) var sets: FetchedResults<Sets>
+
     @State private var selectedSet: Sets?
-    @State private var sets: [Sets] = []
-    @State private var updateToken = UUID()
 
     var body: some View {
         VStack {
             List {
-                ForEach(sets.sorted(by: { ($0.dateCreation ?? Date.distantPast) < ($1.dateCreation ?? Date.distantPast) }), id: \.self) { sets in
-                    HStack {
-                        Text("\(sets.sets) sets")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                        Text("\(String(format: "%.1f", sets.weight)) kg")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Text("\(sets.reps) reps")
-                            .font(.body)
-                            .foregroundColor(.green)
-
-                        Spacer()
-
-                        Button(action: {
-                            self.selectedSet = sets
-                            self.showingEditSetView = true
-                        }) {
-                            Image(systemName: "pencil")
-                        }
-                        .buttonStyle(BorderlessButtonStyle())
+                ForEach(sets, id: \.self) { set in
+                    NavigationLink(destination: EditSetsView(exercise: exercise, set: set, sets: set.sets, weight: set.weight, reps: set.reps)) {
+                        SetRow(set: set)
                     }
                 }
                 .onDelete(perform: deleteSet)
             }
-            .id(updateToken)
-
             Spacer()
         }
         .navigationBarTitle(Text(exercise.name ?? "Exercise").bold())
@@ -52,27 +32,36 @@ struct ExerciseDetailView: View {
                 Image(systemName: "plus.circle")
             }
         )
-        .sheet(isPresented: $showingEditSetView) {
-            if let setToEdit = selectedSet {
-                EditSetsView(exercise: exercise, set: setToEdit)
-                    .environment(\.managedObjectContext, self.managedObjectContext)
-            }
-        }
-        .onAppear {
-            self.sets = Array(exercise.setsToExercise as? Set<Sets> ?? [])
-        }
     }
 
-    func deleteSet(at offsets: IndexSet) {
-        withAnimation {
-            offsets.map { sets[$0] }.forEach(managedObjectContext.delete)
-            do {
-                try managedObjectContext.save()
-                self.sets = Array(exercise.setsToExercise as? Set<Sets> ?? [])
-            } catch {
-                print("Error al eliminar la serie: \(error.localizedDescription)")
-            }
+    private func deleteSet(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let set = sets[index]
+            managedObjectContext.delete(set)
+        }
+
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Error deleting sets: \(error)")
         }
     }
+}
 
+struct SetRow: View {
+    var set: Sets
+
+    var body: some View {
+        HStack {
+            Text("\(set.sets) sets")
+                .font(.headline)
+                .foregroundColor(.blue)
+            Text("\(String(format: "%.1f", set.weight)) kg")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+            Text("\(set.reps) reps")
+                .font(.body)
+                .foregroundColor(.green)
+        }
+    }
 }
