@@ -50,7 +50,9 @@ struct EditSetsView: View {
     }
     
     private func updateSet() {
-        gymProController.updateSeries(sets: sets, weight: weight, reps: reps, context: managedObjectContext)
+        gymProController.updateSeries(setToUpdate: set, sets: sets, weight: weight, reps: reps, context: managedObjectContext)
         dismiss()
     }
+
+
 }

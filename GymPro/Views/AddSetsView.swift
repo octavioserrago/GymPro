@@ -54,10 +54,4 @@ struct AddSetsView: View {
         dismiss()
     }
 
-    
-   
-
-
-
-
 }

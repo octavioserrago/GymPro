@@ -62,22 +62,24 @@ class GymProController: ObservableObject {
     
     // Agregar una serie a un ejercicio dentro de un día
     func addSeries(sets: Int32, weight: Double, reps: Int32, to exercise: Exercise, in day: Day, context: NSManagedObjectContext) {
-        // Crear una nueva instancia de Sets
+        
         let series = Sets(context: context)
         series.id = UUID()
         series.weight = weight
         series.reps = reps
         series.sets = sets
+        series.dateCreation = Date()
         
-        // Agregar la serie al ejercicio
+       
         exercise.addToSetsToExercise(series)
         
-        // Asociar el ejercicio al día
+   
         exercise.exerciseToDay = day
         
-        // Guardar los cambios en el contexto
+        
         saveChanges(context: context)
     }
+
 
     // Función para guardar los cambios en el contexto
     func saveChanges(context: NSManagedObjectContext) {
@@ -89,12 +91,12 @@ class GymProController: ObservableObject {
     }
 
     
-    func updateSeries(sets: Int32, weight: Double, reps: Int32, context: NSManagedObjectContext) {
-        let set = Sets (context: context)
-        set.sets = sets
-        set.weight = weight
-        set.reps = reps
+    func updateSeries(setToUpdate: Sets, sets: Int32, weight: Double, reps: Int32, context: NSManagedObjectContext) {
+        setToUpdate.sets = sets
+        setToUpdate.weight = weight
+        setToUpdate.reps = reps
         save(context: context)
     }
+
     
 }

@@ -10,20 +10,49 @@ import CoreData
 struct ExerciseDetailView: View {
     @ObservedObject var exercise: Exercise
     @Environment(\.managedObjectContext) var managedObjectContext
-    @FetchRequest(entity: Sets.entity(), sortDescriptors: []) var sets: FetchedResults<Sets>
-
+    @State private var showingEditSetView = false
     @State private var selectedSet: Sets?
 
     var body: some View {
         VStack {
-            List {
-                ForEach(sets, id: \.self) { set in
-                    NavigationLink(destination: EditSetsView(exercise: exercise, set: set, sets: set.sets, weight: set.weight, reps: set.reps)) {
-                        SetRow(set: set)
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(Array(exercise.setsToExercise as? Set<Sets> ?? []).sorted(by: { ($0.dateCreation ?? Date.distantPast) < ($1.dateCreation ?? Date.distantPast) }), id: \.self) { sets in
+                    HStack {
+                        Text("\(sets.sets) sets")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        Text("\(String(format: "%.1f", sets.weight)) kg")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        Text("\(sets.reps) reps")
+                            .font(.body)
+                            .foregroundColor(.green)
+
+                        Spacer()
+
+                        Button(action: {
+                            self.selectedSet = sets
+                            self.showingEditSetView = true
+                        }) {
+                            Image(systemName: "pencil")
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+
+                        Button(action: {
+                            self.deleteSet(set: sets)
+                        }) {
+                            Image(systemName: "trash")
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
                     }
+                    .padding()
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(8)
+                    .shadow(radius: 2)
                 }
-                .onDelete(perform: deleteSet)
             }
+            .padding()
+
             Spacer()
         }
         .navigationBarTitle(Text(exercise.name ?? "Exercise").bold())
@@ -32,36 +61,27 @@ struct ExerciseDetailView: View {
                 Image(systemName: "plus.circle")
             }
         )
-    }
-
-    private func deleteSet(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let set = sets[index]
-            managedObjectContext.delete(set)
+        .sheet(item: $selectedSet) { setToEdit in
+            EditSetsView(exercise: exercise, set: setToEdit, sets: setToEdit.sets, weight: setToEdit.weight, reps: setToEdit.reps)
+                .environment(\.managedObjectContext, self.managedObjectContext)
         }
 
+
+    }
+
+    func deleteSet(set: Sets) {
+        // Asegúrate de que el conjunto de series contiene la serie a eliminar
+        guard let sets = self.exercise.setsToExercise as? Set<Sets>, sets.contains(set) else {
+            return
+        }
+        
+        self.exercise.removeFromSetsToExercise(set)
+        self.managedObjectContext.delete(set)
         do {
-            try managedObjectContext.save()
+            try self.managedObjectContext.save()
         } catch {
-            print("Error deleting sets: \(error)")
+            print("Error al guardar cambios: \(error.localizedDescription)")
         }
     }
-}
 
-struct SetRow: View {
-    var set: Sets
-
-    var body: some View {
-        HStack {
-            Text("\(set.sets) sets")
-                .font(.headline)
-                .foregroundColor(.blue)
-            Text("\(String(format: "%.1f", set.weight)) kg")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            Text("\(set.reps) reps")
-                .font(.body)
-                .foregroundColor(.green)
-        }
-    }
 }
